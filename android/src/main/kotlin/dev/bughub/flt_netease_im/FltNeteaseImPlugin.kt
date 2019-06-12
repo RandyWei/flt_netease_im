@@ -10,7 +10,7 @@ class FltNeteaseImPlugin: MethodCallHandler {
   companion object {
     @JvmStatic
     fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "flt_netease_im")
+      val channel = MethodChannel(registrar.messenger(), "bughub.dev/flt_netease_im")
       channel.setMethodCallHandler(FltNeteaseImPlugin())
     }
   }
