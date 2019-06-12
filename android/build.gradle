@@ -2,20 +2,22 @@ group 'dev.bughub.flt_netease_im'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    ext.kotlin_version = '1.3.31'
     repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 rootProject.allprojects {
     repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
     }
@@ -40,5 +42,20 @@ android {
 }
 
 dependencies {
+    // 添加依赖。注意，版本号必须一致。
+    // 基础功能 (必需)
+    implementation 'com.netease.nimlib:basesdk:6.5.0'
+    // 音视频和互动白板服务需要
+    implementation 'com.netease.nimlib:nrtc:6.5.0'
+    // 音视频需要
+    implementation 'com.netease.nimlib:avchat:6.5.0'
+    // 聊天室需要
+    implementation 'com.netease.nimlib:chatroom:6.5.0'
+    // 互动白板服务需要
+    implementation 'com.netease.nimlib:rts:6.5.0'
+    // 全文检索服务需要
+    //implementation 'com.netease.nimlib:lucene:6.5.0'
+    // 小米、华为、魅族、fcm 推送
+    implementation 'com.netease.nimlib:push:6.5.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
