@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:flt_netease_im/flt_netease_im.dart';
 
 void main() => runApp(MyApp());
@@ -15,6 +12,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    FltNeteaseIm.initSDK(SDKOptions());
   }
 
   @override
