@@ -95,11 +95,43 @@
 </manifest>
 ```
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+### 初始化
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+SDKOptions参照官方文档:[https://dev.yunxin.163.com/docs/interface/%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AFAndroid%E7%AB%AF/IM_Android/index.html](https://dev.yunxin.163.com/docs/interface/%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AFAndroid%E7%AB%AF/IM_Android/index.html)
+
+暂时不支持以下设置：
+
+messageNotifierCustomization
+
+mNosTokenSceneConfig
+
+notificationSmallIconId
+
+notificationSound
+
+
+## iOS
+
+### 初始化
+
+配置参照官方文档:[https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E5%88%9D%E5%A7%8B%E5%8C%96](https://dev.yunxin.163.com/docs/product/IM%E5%8D%B3%E6%97%B6%E9%80%9A%E8%AE%AF/SDK%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/iOS%E5%BC%80%E5%8F%91%E9%9B%86%E6%88%90/%E5%88%9D%E5%A7%8B%E5%8C%96)
+
+暂不支持以下设置：
+
+enabledHttps
+
+enabledHttpsForInfo
+
+enabledHttpsForMessage
+
+shouldIgnoreNotification
+
+fileProtectionNone
+
+maxAutoLoginRetryTimes
+
+maximumLogDays
+
+reconnectInBackgroundStateDisabled
+
+teamReceiptEnabled

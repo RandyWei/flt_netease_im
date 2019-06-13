@@ -12,7 +12,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FltNeteaseIm.initSDK(SDKOptions());
+    FltNeteaseIm.initSDK(SDKOptions(appKey: "111"));
   }
 
   @override
