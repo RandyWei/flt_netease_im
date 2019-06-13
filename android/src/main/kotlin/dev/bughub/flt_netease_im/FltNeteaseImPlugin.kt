@@ -1,18 +1,13 @@
 package dev.bughub.flt_netease_im
 
-import android.app.Activity
-import android.graphics.Color
 import com.netease.nimlib.sdk.*
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.netease.nimlib.sdk.mixpush.MixPushConfig
-import com.netease.nimlib.sdk.msg.MessageNotifierCustomization
-import com.netease.nimlib.sdk.msg.MessageNotifierCustomizationCompat
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
-import org.json.JSONObject
 
 
 class FltNeteaseImPlugin(var registrar: Registrar) : MethodCallHandler {

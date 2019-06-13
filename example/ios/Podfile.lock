@@ -1,0 +1,29 @@
+PODS:
+  - flt_netease_im (0.0.1):
+    - Flutter
+    - NIMSDK
+  - Flutter (1.0.0)
+  - NIMSDK (6.0.0)
+
+DEPENDENCIES:
+  - flt_netease_im (from `.symlinks/plugins/flt_netease_im/ios`)
+  - Flutter (from `.symlinks/flutter/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - NIMSDK
+
+EXTERNAL SOURCES:
+  flt_netease_im:
+    :path: ".symlinks/plugins/flt_netease_im/ios"
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+
+SPEC CHECKSUMS:
+  flt_netease_im: 5c5064227b54eed9ec407279165785eea6630dd8
+  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
+  NIMSDK: 18b7d41936d48bbde187134d1bde28616a8a7262
+
+PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
+
+COCOAPODS: 1.5.3

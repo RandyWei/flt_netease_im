@@ -266,16 +266,19 @@ class ServerAddresses {
 
 @JsonSerializable()
 class MixPushConfig {
-  MixPushConfig(
-      {this.xmAppId,
-      this.xmAppKey,
-      this.xmCertificateName,
-      this.hwCertificateName,
-      this.mzAppId,
-      this.mzAppKey,
-      this.mzCertificateName,
-      this.fcmCertificateName,
-      this.vivoCertificateName});
+  MixPushConfig({
+    this.xmAppId,
+    this.xmAppKey,
+    this.xmCertificateName,
+    this.hwCertificateName,
+    this.mzAppId,
+    this.mzAppKey,
+    this.mzCertificateName,
+    this.fcmCertificateName,
+    this.vivoCertificateName,
+    this.apnsCername,
+    this.pkCername,
+  });
 
   ///小米推送 appId
   final String xmAppId;
@@ -303,6 +306,12 @@ class MixPushConfig {
 
   ///VIVO推送 appId apiKey请在 AndroidManifest.xml 文件中配置 VIVO推送证书，请在云信管理后台申请
   final String vivoCertificateName;
+
+  ///APNs 证书(iOS专用)
+  final String apnsCername;
+
+  ///Voip 证书(iOS专用)
+  final String pkCername;
 
   //不同的类使用不同的mixin即可
   factory MixPushConfig.fromJson(Map<String, dynamic> json) => _$MixPushConfigFromJson(json);
