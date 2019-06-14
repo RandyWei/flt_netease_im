@@ -191,7 +191,9 @@ MixPushConfig _$MixPushConfigFromJson(Map<String, dynamic> json) {
       mzAppKey: json['mzAppKey'] as String,
       mzCertificateName: json['mzCertificateName'] as String,
       fcmCertificateName: json['fcmCertificateName'] as String,
-      vivoCertificateName: json['vivoCertificateName'] as String);
+      vivoCertificateName: json['vivoCertificateName'] as String,
+      apnsCername: json['apnsCername'] as String,
+      pkCername: json['pkCername'] as String);
 }
 
 Map<String, dynamic> _$MixPushConfigToJson(MixPushConfig instance) =>
@@ -204,7 +206,9 @@ Map<String, dynamic> _$MixPushConfigToJson(MixPushConfig instance) =>
       'mzAppKey': instance.mzAppKey,
       'mzCertificateName': instance.mzCertificateName,
       'fcmCertificateName': instance.fcmCertificateName,
-      'vivoCertificateName': instance.vivoCertificateName
+      'vivoCertificateName': instance.vivoCertificateName,
+      'apnsCername': instance.apnsCername,
+      'pkCername': instance.pkCername
     };
 
 NosTokenSceneConfig _$NosTokenSceneConfigFromJson(Map<String, dynamic> json) {
@@ -214,3 +218,16 @@ NosTokenSceneConfig _$NosTokenSceneConfigFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$NosTokenSceneConfigToJson(
         NosTokenSceneConfig instance) =>
     <String, dynamic>{};
+
+LoginInfo _$LoginInfoFromJson(Map<String, dynamic> json) {
+  return LoginInfo(
+      account: json['account'] as String,
+      token: json['token'] as String,
+      appKey: json['appKey'] as String);
+}
+
+Map<String, dynamic> _$LoginInfoToJson(LoginInfo instance) => <String, dynamic>{
+      'account': instance.account,
+      'token': instance.token,
+      'appKey': instance.appKey
+    };

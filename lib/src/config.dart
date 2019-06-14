@@ -329,3 +329,17 @@ class NosTokenSceneConfig {
 
   Map<String, dynamic> toJson() => _$NosTokenSceneConfigToJson(this);
 }
+
+@JsonSerializable()
+class LoginInfo {
+  final String account;
+  final String token;
+  final String appKey;
+
+  LoginInfo({this.account, this.token, this.appKey});
+
+  //不同的类使用不同的mixin即可
+  factory LoginInfo.fromJson(Map<String, dynamic> json) => _$LoginInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LoginInfoToJson(this);
+}

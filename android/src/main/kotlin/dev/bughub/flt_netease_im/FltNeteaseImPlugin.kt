@@ -1,8 +1,12 @@
 package dev.bughub.flt_netease_im
 
+import android.util.Log
+import com.chinahrt.flutter_plugin_demo.QueuingEventSink
 import com.netease.nimlib.sdk.*
+import com.netease.nimlib.sdk.auth.AuthService
 import com.netease.nimlib.sdk.auth.LoginInfo
 import com.netease.nimlib.sdk.mixpush.MixPushConfig
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -11,11 +15,15 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 
 
 class FltNeteaseImPlugin(var registrar: Registrar) : MethodCallHandler {
+
+    var loginQueuingEventSink = QueuingEventSink()
+
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
+            val plugin = FltNeteaseImPlugin(registrar)
             val channel = MethodChannel(registrar.messenger(), "bughub.dev/flt_netease_im")
-            channel.setMethodCallHandler(FltNeteaseImPlugin(registrar))
+            channel.setMethodCallHandler(plugin)
         }
     }
 
@@ -23,36 +31,91 @@ class FltNeteaseImPlugin(var registrar: Registrar) : MethodCallHandler {
 
         val context = registrar.activeContext()
 
-        if (call.method == "initSDK") {//初始化SDK
+        when {
+            call.method == "initSDK" -> {//初始化SDK
+                val optionsArg = call.argument<Map<*, *>>("options")
+                val loginInfoArg = call.argument<Map<*, *>>("loginInfo")
 
-            val args = call.arguments as Map<*, *>
+                NIMClient.config(context, loginInfo(loginInfoArg), options(optionsArg))
+                NIMClient.initSDK()
 
-            NIMClient.config(context, loginInfo(), options(args))
-//            NIMClient.initSDK()
+                //注册登录监听
+                val eventChannel = EventChannel(registrar.messenger(), "bughub.dev/flt_netease_im/events[login]")
+                eventChannel.setStreamHandler(object : EventChannel.StreamHandler {
+                    override fun onListen(p0: Any?, sink: EventChannel.EventSink?) {
+                        loginQueuingEventSink.setDelegate(sink)
+                    }
 
-            result.success(null)
-        } else {
-            result.notImplemented()
+                    override fun onCancel(p0: Any?) {
+                        loginQueuingEventSink.setDelegate(null)
+                    }
+                })
+
+                result.success(null)
+            }
+            call.method == "login" -> {
+
+                val args = call.arguments as Map<*, *>
+                Log.i("11111", call.arguments.toString())
+                val account = args["account"] as String?
+                val token = args["token"] as String?
+                val appKey = args["appKey"] as String?
+                val loginInfo = LoginInfo(account, token, appKey)
+
+                NIMSDK.getAuthService().login(loginInfo).setCallback(object : RequestCallback<LoginInfo> {
+                    override fun onSuccess(info: LoginInfo?) {
+                        Log.i("11111", "onSuccess$info")
+                        val eventResult = HashMap<String, Any>()
+                        eventResult["event"] = "LOGIN_SUCCESS"
+                        val loginInfoMap = HashMap<String, Any?>()
+                        loginInfoMap["account"] = info?.account
+                        loginInfoMap["appKey"] = info?.appKey
+                        loginInfoMap["token"] = info?.token
+                        eventResult["loginInfo"] = loginInfoMap
+                        loginQueuingEventSink.success(eventResult)
+                    }
+
+                    override fun onFailed(code: Int) {
+                        Log.i("11111", "onFailed:$code")
+                        loginQueuingEventSink.error(code.toString(), "", "")
+                    }
+
+                    override fun onException(p0: Throwable?) {
+                        Log.i("11111", "onException:$p0")
+                        loginQueuingEventSink.error("-1", p0?.message ?: "", p0?.message ?: "")
+                    }
+                })
+
+                result.success(null)
+
+            }
+            else -> result.notImplemented()
         }
     }
 
     // 如果已经存在用户登录信息，返回LoginInfo，否则返回null即可
-    private fun loginInfo(): LoginInfo? {
-        return null
+    private fun loginInfo(args: Map<*, *>?): LoginInfo? {
+        if (args == null) return null
+        val account = args["account"] as String?
+        val token = args["token"] as String?
+        val appKey = args["appKey"] as String?
+        return LoginInfo(account, token, appKey)
     }
 
     // 如果返回值为 null，则全部使用默认参数。
-    private fun options(args: Map<*, *>): SDKOptions {
+    private fun options(args: Map<*, *>?): SDKOptions {
         val options = SDKOptions()
 
+        if (args == null) return options
+
+        //设置云信SDK的appKey。appKey还可以通过在AndroidManifest文件中，通过meta-data的方式设置。 如果两处都设置了，取此处的值。
+        val appKey = args["appKey"]
+        Log.i("initSdk", appKey.toString())
+        options.appKey = appKey as String?
 
         //开启对动图缩略图的支持
         val animatedImageThumbnailEnabled = args["animatedImageThumbnailEnabled"]
         options.animatedImageThumbnailEnabled = animatedImageThumbnailEnabled as Boolean? ?: false
-
-        //设置云信SDK的appKey。appKey还可以通过在AndroidManifest文件中，通过meta-data的方式设置。 如果两处都设置了，取此处的值。
-        val appKey = args["appKey"]
-        options.appKey = appKey as String?
 
         //是否检查 Manifest 配置 最好在调试阶段打开，调试通过之后请关掉
         val checkManifestConfig = args["checkManifestConfig"] as Boolean
